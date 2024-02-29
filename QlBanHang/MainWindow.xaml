@@ -58,11 +58,11 @@
                     </Border.Background>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="340"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="340*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" Height="60"  VerticalAlignment="Center" Margin="10"/>
                         <Button Content="Tìm kiếm"
