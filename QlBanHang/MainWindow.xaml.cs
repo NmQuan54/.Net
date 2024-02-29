@@ -24,5 +24,46 @@ namespace QlBanHang
         {
             InitializeComponent();
         }
+
+        private void show_manage_product()
+        {
+            manage_product.Visibility = Visibility.Visible;
+            manage_revenue.Visibility = Visibility.Collapsed;
+            manage_bill.Visibility = Visibility.Collapsed;
+        }
+
+        private void show_manage_bill()
+        {
+            manage_bill.Visibility= Visibility.Visible;
+            manage_product.Visibility= Visibility.Collapsed;
+            manage_revenue.Visibility= Visibility.Collapsed;
+        }
+
+        private void show_manage_revenue()
+        {
+            manage_revenue.Visibility = Visibility.Visible;
+            manage_bill.Visibility= Visibility.Collapsed;
+            manage_product.Visibility = Visibility.Collapsed;
+        }
+
+        private void to_manage_product(object sender, RoutedEventArgs e)
+        {
+            show_manage_product();
+            txtTrangChu.Text = "Sản phẩm";
+        }
+
+        private void to_manage_bill(object sender, RoutedEventArgs e)
+        {
+            show_manage_bill();
+            txtTrangChu.Text = "Đơn hàng";
+        }
+
+        private void to_manage_revenue(object sender, RoutedEventArgs e)
+        {
+            show_manage_revenue();
+            txtTrangChu.Text= "Doanh thu";
+        }
+
+        
     }
 }

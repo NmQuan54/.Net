@@ -24,6 +24,11 @@ namespace QlBanHang.ViewModel
     public partial class Register : Window
     {
 
+        public Register()
+        {
+            InitializeComponent();
+        }
+
         private void Window_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)

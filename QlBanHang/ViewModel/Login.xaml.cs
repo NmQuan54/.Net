@@ -103,7 +103,6 @@ namespace QlBanHang
             Register register = new Register();
             register.ShowDialog();
             this.Close();
-            
         }
     }
 
