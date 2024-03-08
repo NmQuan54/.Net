@@ -9,6 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using QlBanHang;
 using QlBanHang.ViewModel;
 using System;
 using System.Diagnostics;

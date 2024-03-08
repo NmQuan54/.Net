@@ -36,3 +36,4 @@ C:\Users\dat\.Net\QlBanHang\obj\Debug\QlBanHang.csproj.GenerateResource.cache
 C:\Users\dat\.Net\QlBanHang\obj\Debug\QlBanHang.csproj.CoreCompileInputs.cache
 C:\Users\dat\.Net\QlBanHang\obj\Debug\QlBanHang.exe
 C:\Users\dat\.Net\QlBanHang\obj\Debug\QlBanHang.pdb
+C:\Users\dat\.Net\QlBanHang\obj\Debug\style.baml

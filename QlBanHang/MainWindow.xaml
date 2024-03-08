@@ -6,13 +6,29 @@
         xmlns:local="clr-namespace:QlBanHang"
         mc:Ignorable="d"
         
-        Title="Trang Chủ" Height="750" Width="1000">
+        Title="Trang Chủ" Height="700" Width="1000">
+
+    <Window.Resources>
+        <DataTemplate x:Key="add_template" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150*"/>
+                    <RowDefinition Height="150*"/>
+                    <RowDefinition Height="150*"/>
+                    <RowDefinition Height="150*"/>
+                    <RowDefinition Height="150*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="this is a template"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="245"/>
             <ColumnDefinition Width="29*"/>
         </Grid.ColumnDefinitions>
+        <ContentControl x:Name="template_control"/>
         <StackPanel Background="LightBlue">
             <TextBlock x:Name="txtTrangChu"
                        Text="Menu"
@@ -28,13 +44,16 @@
                     Style="{StaticResource Button_menu_style}"
 />
             <Button Content="Quản lý đơn hàng"
+                    x:Name="bill"
                     Style="{StaticResource Button_menu_style}"
                     Click="to_manage_bill"/>
 
             <Button Content="Quàn lý sản phẩm"
+                    x:Name="product"
                     Style="{StaticResource Button_menu_style}"
                     Click="to_manage_product"/>
             <Button Content="Quản lý doanh thu"
+                    x:Name="revenue"
                     Style="{StaticResource Button_menu_style}"
                     Click="to_manage_revenue"/>
         </StackPanel>
@@ -46,8 +65,9 @@
             Visibility="Visible">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="150"/>
-                    <RowDefinition Height="600"/>
+                    <RowDefinition Height="100*"/>
+                    <RowDefinition Height="200*"/>
+                    <RowDefinition Height="650*"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" CornerRadius="10">
                     <Border.Background>
@@ -63,34 +83,134 @@
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Height="60"  VerticalAlignment="Center" Margin="10"/>
+                        <TextBox x:Name="search_box"
+                            Grid.Column="0"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            Margin="10"
+                            Padding="5"/>
                         <Button Content="Tìm kiếm"
                                 Grid.Column="1"
-                                Height="60"
-                                Style="{StaticResource button_manage}"/>
+                                Style="{StaticResource button_manage}"
+                                Click="find_products"/>
                         <Button Content="Sửa"
                                 Grid.Column="2"
-                                Height="60, "
-                                Style="{StaticResource button_manage}"/>
-                         <Button Content="Xóa"
+                                Style="{StaticResource button_manage}"
+                                Click="edit_products"/>
+                        <Button Content="Xóa"
                                 Grid.Column="3"
-                                Height="60, "
+                                Click="delete_products"
                                 Style="{StaticResource button_manage}"/>
                         <Button Content="Thêm"
                                 Grid.Column="4"
-                                Height="60"
-                                Style="{StaticResource button_manage}"/>
+                                Style="{StaticResource button_manage}"
+                                Click="add_product"/>
+                        <Button Content="Làm mới"
+                                Grid.Column="5"
+                                Style="{StaticResource button_manage}"
+                                Click="refresh"/>
                     </Grid>
                 </Border>
-                <Border CornerRadius="10" Grid.Row="1" Margin="4, 10" >
+                <Border Grid.Row="1" CornerRadius="10" Margin="0,5,0,0">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color ="#18A5A7" Offset="0.0"/>
                             <GradientStop Color="#B6C0C5" Offset="1.0"/>
                         </LinearGradientBrush>
                     </Border.Background>
-                    <DataGrid Margin="10" AutoGenerateColumns="False">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Vertical"
+                                        Height="150"
+                                        Width="300">
+                                <TextBlock
+                                        Text="ID"
+                                        Style="{StaticResource text_block_manage}"/>
+                                <TextBox x:Name="id"
+                                        Style="{StaticResource text_box_manage}"/>
+
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"
+                                Orientation="Vertical"
+                                Height="150"
+                                Width="300">
+                                <TextBlock
+                                    Text="Name"
+                                    Style="{StaticResource text_block_manage}"/>
+                                <TextBox x:Name="name"
+                                    Style="{StaticResource text_box_manage}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel
+                                        Grid.Column="0"
+                                        Orientation="Vertical"
+                                        Height="50"
+                                        Width="200">
+                                <TextBlock
+                                        Text="Quantity"
+                                        Style="{StaticResource text_block_manage}"/>
+                                <TextBox x:Name="quantity"
+                                         Style="{StaticResource text_box_manage}"/>
+                            </StackPanel>
+                            <StackPanel
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Height="50"
+                                        Width="200">
+                                <TextBlock
+                                        Text="Price"
+                                        Style="{StaticResource text_block_manage}"/>
+                                <TextBox x:Name="price"
+                                         Style="{StaticResource text_box_manage}"/>
+                            </StackPanel>
+                            <StackPanel
+                                    Grid.Column="2"
+                                    Orientation="Vertical"
+                                    Height="50"
+                                    Width="200">
+                                <TextBlock
+                                        Text="Type"
+                                        Style="{StaticResource text_block_manage}"/>
+                                <TextBox x:Name="type"
+                                         Style="{StaticResource text_box_manage}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Border
+                    CornerRadius="10"
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    x:Name="product_manage"
+                    Visibility="Visible">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color ="#18A5A7" Offset="0.0"/>
+                            <GradientStop Color="#B6C0C5" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <DataGrid x:Name="DataGrid_products"
+                        Margin="10,10,10,10"
+                              AutoGenerateColumns="False"
+                              SelectionChanged="DataGrid_SelectionChanged"
+                              CanUserAddRows="False">
                         <DataGrid.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                 <GradientStop Color ="#18A5A7" Offset="0.0"/>
@@ -99,7 +219,7 @@
                         </DataGrid.Background>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Width="200"  Header="      Name"  Binding="{Binding Name} "/>
+                            <DataGridTextColumn Width="200"  Header="      Name" Binding="{Binding Name}"  />
                             <DataGridTextColumn Width="100" Header="     Quantity" Binding="{Binding Quantity}"/>
                             <DataGridTextColumn Width="100"  Header="    Price" Binding="{Binding Price}"/>
                             <DataGridTextColumn Width="100" Header="Type" Binding="{Binding Type}"/>
