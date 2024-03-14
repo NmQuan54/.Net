@@ -56,6 +56,11 @@
                     x:Name="revenue"
                     Style="{StaticResource Button_menu_style}"
                     Click="to_manage_revenue"/>
+            <Button  Content="Đăng xuất"
+                     x:Name="logOut"
+                     Style="{StaticResource Button_menu_style}"
+                     Background="OrangeRed"
+                     Click="logOut_Click"/>
         </StackPanel>
         <Border
             Grid.Column="1"
@@ -218,11 +223,11 @@
                             </LinearGradientBrush>
                         </DataGrid.Background>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header=" ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Width="200"  Header="      Name" Binding="{Binding Name}"  />
-                            <DataGridTextColumn Width="100" Header="     Quantity" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Width="100"  Header="    Price" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Width="100" Header="Type" Binding="{Binding Type}"/>
+                            <DataGridTextColumn Width="50*" Header=" ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Width="200*"  Header="      Name" Binding="{Binding Name}"  />
+                            <DataGridTextColumn Width="100*" Header="     Quantity" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Width="100*"  Header="    Price" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Width="100*" Header="Type" Binding="{Binding Type}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace QlBanHang.ViewModel
 {
@@ -27,6 +28,7 @@ namespace QlBanHang.ViewModel
         public Register()
         {
             InitializeComponent();
+            
         }
 
         private void Window_MouseDown(object sender, MouseEventArgs e)
@@ -53,10 +55,11 @@ namespace QlBanHang.ViewModel
             this.Close();
         }
         
+
         private void createAcc(object sender, RoutedEventArgs e)
         {
 
-            SqlConnection connection = new SqlConnection(@"Data Source=QUAN;Initial Catalog=QLBanHang;Integrated Security=True;");
+            SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
             try
             {
                 connection.Open();
@@ -89,12 +92,14 @@ namespace QlBanHang.ViewModel
                     return; 
                 }
 
-                   string query = "INSERT INTO Acount (Username, Password, Email) VALUES (@Username, @Password, @Email)";
+                    string hashedPass = HashPassword(Password);   
+
+                   string query = "INSERT INTO Users (Username, Password, Email) VALUES (@Username, @Password, @Email)";
 
                    SqlCommand command = new SqlCommand(query, connection);
                     
                         command.Parameters.AddWithValue("@Username", Username);
-                        command.Parameters.AddWithValue("@Password", Password);
+                        command.Parameters.AddWithValue("@Password", hashedPass);
                         command.Parameters.AddWithValue("@Email", Email);
 
                         int rowsAffected = command.ExecuteNonQuery();
@@ -117,6 +122,23 @@ namespace QlBanHang.ViewModel
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
+        }
+        private const string Salt = "dotnet";
+        private string HashPassword(string password)
+        {
+            using(SHA256 sha256 = SHA256.Create())
+            {
+                string SaltedPass = string.Concat(password, Salt);
+                byte[] HashedByte = sha256.ComputeHash(Encoding.UTF8.GetBytes(SaltedPass));
+                
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in HashedByte)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+            
         }
     }
 }

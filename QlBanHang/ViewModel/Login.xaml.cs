@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace QlBanHang
         }
         private void ToLogin(object sender, RoutedEventArgs e)
         {
-            SqlConnection connection = new SqlConnection(@"Data Source=QUAN;Initial Catalog=QLBanHang;Integrated Security=True;");
+            SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
             try
             {
                 connection.Open();
@@ -65,12 +66,14 @@ namespace QlBanHang
                     return;
                 }
 
-                    string query = "SELECT * FROM Acount WHERE Username = @Username AND Password = @Password";
+                string hashedPass = HashPassword(Password);
+                    
+                    string query = "SELECT * FROM Users WHERE Username = @Username AND Password = @Password";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserName", Username);
-                        command.Parameters.AddWithValue("@Password", Password);
+                        command.Parameters.AddWithValue("@Password", hashedPass);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -95,6 +98,24 @@ namespace QlBanHang
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
+        }
+
+        private const string Salt = "dotnet";
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                string SaltedPass = string.Concat(password, Salt);
+                byte[] HashedByte = sha256.ComputeHash(Encoding.UTF8.GetBytes(SaltedPass));
+
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in HashedByte)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+
         }
 
         private void toRegister(object sender, RoutedEventArgs e)

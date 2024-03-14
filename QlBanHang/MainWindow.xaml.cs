@@ -33,6 +33,8 @@ namespace QlBanHang
             loadData();
         }
 
+
+        // Manage products starts
         private void clearTextBox()
         {
             id.Clear();
@@ -96,37 +98,47 @@ namespace QlBanHang
 
         private void edit()
         {
-            if (IsExistName())
+            MessageBoxResult message = MessageBox.Show("Bạn có muốn chỉnh sửa sản phẩm?", "Sửa sản phẩm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if(message == MessageBoxResult.Yes)
             {
-                MessageBox.Show("Ten san pham da ton tai");
-                return;
+                if (IsExistName())
+                {
+                    MessageBox.Show("Ten san pham da ton tai");
+                    return;
+                }
+                else
+                {
+                    if (DataGrid_products.SelectedItem != null)
+                    {
+                        Products selected_products = (Products)DataGrid_products.SelectedItem;
+                        SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
+                        string query = "UPDATE products SET Name = @name, Quantity = @quantity, Type = @type, Price = @price WHERE ID = @id";
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand(query, connection);
+                        decimal priceValue;
+                        if (!decimal.TryParse(price.Text, out priceValue))
+                        {
+
+                            return;
+                        }
+                        cmd.Parameters.AddWithValue("@id", selected_products.ID);
+                        cmd.Parameters.AddWithValue("@name", name.Text);
+                        cmd.Parameters.AddWithValue("@quantity", quantity.Text);
+                        cmd.Parameters.AddWithValue("@price", priceValue);
+                        cmd.Parameters.AddWithValue("@type", type.Text);
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                        loadData();
+
+                    }
+                }
             }
             else
             {
-                if (DataGrid_products.SelectedItem != null)
-                {
-                    Products selected_products = (Products)DataGrid_products.SelectedItem;
-                    SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
-                    string query = "UPDATE products SET Name = @name, Quantity = @quantity, Type = @type, Price = @price WHERE ID = @id";
-                    connection.Open();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    decimal priceValue;
-                    if (!decimal.TryParse(price.Text, out priceValue))
-                    {
-
-                        return;
-                    }
-                    cmd.Parameters.AddWithValue("@id", selected_products.ID);
-                    cmd.Parameters.AddWithValue("@name", name.Text);
-                    cmd.Parameters.AddWithValue("@quantity", quantity.Text);
-                    cmd.Parameters.AddWithValue("@price", priceValue);
-                    cmd.Parameters.AddWithValue("@type", type.Text);
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
-                    loadData();
-
-                }
+                return;
+                clearTextBox();
             }
+            
 
         }
 
@@ -176,6 +188,7 @@ namespace QlBanHang
         private void refresh(object sender, EventArgs e)
         {
             loadData();
+            clearTextBox();
         }
 
         private void delete_products(object sender, RoutedEventArgs e)
@@ -185,23 +198,33 @@ namespace QlBanHang
 
         private void delete()
         {
-            if (DataGrid_products.SelectedItem != null)
+            MessageBoxResult message = MessageBox.Show("Bạn có muốn xóa sản phẩm?", "Xóa sản phẩm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if(message == MessageBoxResult.Yes)
             {
-                SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
-                connection.Open();
-                Products selected_products = (Products)DataGrid_products.SelectedItem;
-                string query = "DELETE  FROM products WHERE name = @name";
-                SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@name", selected_products.Name);
-                cmd.ExecuteNonQuery();
-                loadData();
-                clearTextBox();
-                connection.Close();
+                if (DataGrid_products.SelectedItem != null)
+                {
+                    SqlConnection connection = new SqlConnection(@"Data Source=MSI\MSSQLSERVER02;Initial Catalog=products;Integrated Security=True");
+                    connection.Open();
+                    Products selected_products = (Products)DataGrid_products.SelectedItem;
+                    string query = "DELETE  FROM products WHERE name = @name";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@name", selected_products.Name);
+                    cmd.ExecuteNonQuery();
+                    loadData();
+                    clearTextBox();
+                    connection.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Vui long chon san pham");
+                }
             }
             else
             {
-                MessageBox.Show("Vui long chon san pham");
+                return;
+                clearTextBox();
             }
+            
 
         }
 
@@ -315,6 +338,23 @@ namespace QlBanHang
 
         }
 
-
+        private void logOut_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult message = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if(message == MessageBoxResult.Yes)
+            {
+                this.Hide();
+                Login login = new Login();
+                login.ShowDialog();
+                this.Close();
+                connection.Close();
+                
+            }
+            if(message == MessageBoxResult.No)
+            {
+                return;
+            }
+        }
     }
+    // Manage products end
 }

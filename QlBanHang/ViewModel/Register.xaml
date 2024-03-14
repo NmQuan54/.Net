@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QlBanHang.ViewModel"
         mc:Ignorable="d"
-    WindowStartupLocation="CenterScreen"
-    ResizeMode="NoResize"
-    WindowStyle="None"
-    AllowsTransparency="True"
-    Background="Transparent"
-    MouseDown="Window_MouseDown"
-    Height="450" Width="750"
-    x:Name="createAccWindow">
-    <Border CornerRadius="10"
-    BorderThickness="0">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="Window_MouseDown"
+        Height="450" Width="750"
+        x:Name="createAccWindow">
+        <Border CornerRadius="10"
+        BorderThickness="0">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color ="#18A5A7" Offset="0.0"/>
